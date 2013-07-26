@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.2
+# Version:      0.0.3
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -39,6 +39,14 @@ def print_usage
   puts "-N: What's on TV next (to the next hour"
   puts ""
   exit
+end
+
+def print_version()
+  file_array=IO.readlines $0
+  version=file_array.grep(/^# Version/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  packager=file_array.grep(/^# Packager/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  name=file_array.grep(/^# Name/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  puts name+" v. "+version+" "+packager
 end
 
 def list_channels(location)
@@ -97,9 +105,14 @@ def search_tv_page(channel_search,time_search,location)
 end
 
 begin
-  opt = Getopt::Std.getopts("c:a:l:hnCLN")
+  opt = Getopt::Std.getopts("c:a:l:hnCLNV")
 rescue 
   print_usage        
+end
+
+if opt["V"]
+  print_version
+  exit
 end
 
 if opt["n"] or opt["N"]
