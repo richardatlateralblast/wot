@@ -22,30 +22,43 @@ Examples
 Display Channel TEN's programming for the evening:
 
 	$ ./wot.rb -c TEN
-	The Simpsons on TEN at 6pm 
-	The Project on TEN at 6.30pm 
-	The Living Room on TEN at 7.30pm 
-	NCIS on TEN at 8.30pm 
-	This Week Live on TEN at 9.30pm 
-	Ten Late News on TEN at 10.30pm 
-	The Project on TEN at 11.15pm 
+	+--------------------------------+---------+---------+
+	| Program                        | Channel | Time    |
+	+--------------------------------+---------+---------+
+	| Late Show with David Letterman | TEN     | 12am    |
+	| Home Shopping                  | TEN     | 1am     |
+	| Home Shopping                  | TEN     | 1.30am  |
+	| Home Shopping                  | TEN     | 2am     |
+	| Home Shopping                  | TEN     | 2.30am  |
+	| Home Shopping                  | TEN     | 3am     |
+	| Home Shopping                  | TEN     | 3.30am  |
+	| Home Shopping                  | TEN     | 4am     |
+	| Home Shopping                  | TEN     | 4.30am  |
+	| Home Shopping                  | TEN     | 5am     |
+	| Home Shopping                  | TEN     | 5.30am  |
+	+--------------------------------+---------+---------+
 
-Display what is on TV at 6:30:
+Display what is on TV at 6:30pm:
 
-	$ ./wot.rb -a 6:30
-	World News Australia on SBS ONE at 6.30pm 
-	World News Australia on SBS HD at 6.30pm 
-	Around The Traps on NITV at 6.30pm 
-	Today Tonight on Seven at 6.30pm 
-	Bargain Hunt on 7TWO at 6.30pm 
-	A Current Affair on Nine at 6.30pm 
-	Friends on GEM at 6.30pm 
-	Get Smart on ONE at 6.30pm 
-	The Project on TEN at 6.30pm 
-	Neighbours on ELEVEN at 6.30pm 
-	ZULTANITE Naturally Precious on TVSN at 6.30pm 
-	euromaxx on TVS at 6.30pm 
-	Scrap It TV Christmas Special on 4ME at 6.30pm 
+	$ ./wot.rb -a 6:30pm
+	+------------------------------------------+---------+---------+
+	| Program                                  | Channel | Time    |
+	+------------------------------------------+---------+---------+
+	| Gardening Australia                      | ABC1    | 6.30pm  |
+	| World News Australia                     | SBS ONE | 6.30pm  |
+	| World News Australia                     | SBS HD  | 6.30pm  |
+	| Bridge to Terabithia                     | Seven   | 6.30pm  |
+	| Heartbeat                                | 7TWO    | 6.30pm  |
+	| Happy 75th Bert! Celebrating a TV Legend | Nine    | 6.30pm  |
+	| Secret Dealers                           | GEM     | 6.30pm  |
+	| Batman & Robin                           | GO!     | 6.30pm  |
+	| M*A*S*H                                  | ONE     | 6.30pm  |
+	| David Attenborough's The Life of Mammals | TEN     | 6.30pm  |
+	| Reef Doctors                             | ELEVEN  | 6.30pm  |
+	| New Brother 4234D Sewing Machine         | TVSN    | 6.30pm  |
+	| Grainger's World                         | TVS     | 6.30pm  |
+	| Retail Therapy                           | 4ME     | 6.30pm  |
+	+------------------------------------------+---------+---------+
 
 List channels:
 

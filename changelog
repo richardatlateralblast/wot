@@ -4,3 +4,7 @@
 #           Updates and initial commit to github
 #           0.0.3: Fri 26 Jul 2013 22:52:59 EST
 #           Added version information
+#           0.0.4: Sat 27 Jul 2013 00:29:03 EST
+#           Added terminal tables
+#           0.0.5: Sat 27 Jul 2013 08:39:16 EST
+#           Used Mechanize to fetch rest of day's programming

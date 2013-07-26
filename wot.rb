@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.3
+# Version:      0.0.5
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -18,6 +18,8 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'getopt/std'
+require 'terminal-table'
+require 'mechanize'
 
 # Set up some defaults
 
@@ -76,38 +78,55 @@ def list_locations(location)
 end
 
 def search_tv_page(channel_search,time_search,location)
+  rows=[]
   base_url="http://www.yourtv.com.au/guide/"
   full_url=base_url+location+"/"
-  doc = Nokogiri::HTML(open(base_url))
+  agent=Mechanize.new
+  page=agent.get(base_url)
+  page=agent.page.link_with(:text => 'Rest of today').click
+  page=page.content
+  doc=Nokogiri::HTML(page)
+  rows << ['Program','Channel','Time']
+  rows << :separator
   doc.css('div.pname a').each do |node|
     prog_info=node[:title]
     if channel_search.match(/[A-z]/) 
-      if prog_info.match(channel_search)
+      if prog_info.match(channel_search) or channel_search.match(/ALL/)
         if time_search.match(/[0-9]/) 
           if prog_info.match(time_search)
-            puts prog_info
+            (info,time)=prog_info.split(/ at /)
+            (info,channel)=info.split(/ on /)
+            rows << [info,channel,time]
           end
         else 
-          puts prog_info
+          (info,time)=prog_info.split(/ at /)
+          (info,channel)=info.split(/ on /)
+          rows << [info,channel,time]
         end 
       end
     else
       if time_search.match(/[0-9]/) 
         if prog_info.match(time_search)
-          puts prog_info
+          (info,time)=prog_info.split(/ at /)
+          (info,channel)=info.split(/ on /)
+          rows << [info,channel,time]
         end
       else
-        puts prog_info
+        (info,time)=prog_info.split(/ at /)
+        (info,channel)=info.split(/ on /)
+        rows << [info,channel,time]
       end
     end
   end
+  table=Terminal::Table.new :rows => rows
+  puts table
   return
 end
 
 begin
   opt = Getopt::Std.getopts("c:a:l:hnCLNV")
 rescue 
-  print_usage        
+  print_usage()
 end
 
 if opt["V"]
@@ -118,14 +137,22 @@ end
 if opt["n"] or opt["N"]
   time=Time.new
   hour=time.hour
-  min=time.min
-  if hour > 12
+  if hour > 11
     hour=hour-12
+    suffix="pm"
   end
-  if opt ["N"]
-    hour=hour+1
+  if hour == 0
+    hour=12
+    suffix="am"
+    if opt["N"]
+      hour=1
+    end
+  else
+    if opt ["N"]
+      hour=hour+1
+    end
   end
-  opt["a"]=hour.to_s
+  opt["a"]=hour.to_s+suffix
 end
 
 if opt["L"]
