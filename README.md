@@ -60,6 +60,16 @@ Display what is on TV at 6:30pm:
 	| Retail Therapy                           | 4ME     | 6.30pm  |
 	+------------------------------------------+---------+---------+
 
+Search for type of programming:
+
+	./wot.rb -s "Movie"
+	+------------------------------+-----------+----------+
+	| Program                      | Channel   | Time     |
+	+------------------------------+-----------+----------+
+	| At the Movies                | ABC1      | 1.30pm   |
+	| Mama Mirabelle's Home Movies | ABC2/ABC4 | 11.45am  |
+	+------------------------------+-----------+----------+
+
 List channels:
 
 	$ ./wot.rb -C

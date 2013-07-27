@@ -8,3 +8,5 @@
 #           Added terminal tables
 #           0.0.5: Sat 27 Jul 2013 08:39:16 EST
 #           Used Mechanize to fetch rest of day's programming
+#           0.0.6: Sat 27 Jul 2013 10:47:14 EST
+#           Search based on programming content
