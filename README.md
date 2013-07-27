@@ -8,7 +8,7 @@ Ruby script to process TV guide
 Usage
 =====
 
-	./wot.rb -[h|C] -c Channel -a Time -l Location
+	$ wot.rb -[h|C] -c Channel -a Time -l Location
 	-h: Display usage
 	-c: Channel [TEN,ABC1,..]
 	-a: Time [8,8.00,8:30,..]
@@ -21,7 +21,7 @@ Examples
 
 Display Channel TEN's programming for the evening:
 
-	$ ./wot.rb -c TEN
+	$ wot.rb -c TEN
 	+--------------------------------+---------+---------+
 	| Program                        | Channel | Time    |
 	+--------------------------------+---------+---------+
@@ -40,7 +40,7 @@ Display Channel TEN's programming for the evening:
 
 Display what is on TV at 6:30pm:
 
-	$ ./wot.rb -a 6:30pm
+	$ wot.rb -a 6:30pm
 	+------------------------------------------+---------+---------+
 	| Program                                  | Channel | Time    |
 	+------------------------------------------+---------+---------+
@@ -62,7 +62,7 @@ Display what is on TV at 6:30pm:
 
 Search for type of programming:
 
-	./wot.rb -s "Movie"
+	$ wot.rb -s "Movie"
 	+------------------------------+-----------+----------+
 	| Program                      | Channel   | Time     |
 	+------------------------------+-----------+----------+
@@ -72,7 +72,7 @@ Search for type of programming:
 
 List channels:
 
-	$ ./wot.rb -C
+	$ wot.rb -C
 	Channels:
 	ABC1
 	ABC2 / ABC4
@@ -86,7 +86,7 @@ List channels:
 
 List locations:
 
-	$ ./wot.rb -L
+	$ wot.rb -L
 	Locations:
 	Sydney
 	Melbourne
