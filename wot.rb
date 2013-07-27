@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.5
+# Version:      0.0.6
 # Release:      1
 # License:      Open Source
 # Group:        System
