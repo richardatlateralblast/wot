@@ -96,3 +96,15 @@ List locations:
 	Hobart
 	Perth
 
+Show staff picks:
+
+	$ wot.rb -r
+	+------------------------------------------+-----------+----------+------------+
+	| Program                                  | Channel   | Time     | Staff Pick |
+	+------------------------------------------+-----------+----------+------------+
+	| Junior Doctors: Your Life in Their Hands | ABC2/ABC4 | 8.30pm   | Yes        |
+	| Pain, Pus and Poison                     | SBSONE    | 8.30pm   | Yes        |
+	| Please Marry My Boy                      | Seven     | 9pm      | Yes        |
+	| Big Brother                              | Nine      | 7pm      | Yes        |
+	| The Gates                                | ELEVEN    | 10.30pm  | Yes        |
+	+------------------------------------------+-----------+----------+------------+

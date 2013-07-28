@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.7
+# Version:      0.0.8
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -40,6 +40,7 @@ def print_usage
   puts "-n: What's on TV now (to the current hour)"
   puts "-N: What's on TV next (to the next hour"
   puts "-s: Search on subject (eg News)" 
+  puts "-r: Show only staff picks" 
   puts ""
   exit
 end
@@ -81,22 +82,36 @@ def list_locations(location)
   return
 end
 
-def process_entry(table,prog_info,info,channel,time,content_search)
+def process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
   if content_search
     if content_search.match(/[A-z|0-9]/)
       if prog_info.match(/#{content_search}/)
-        row=[info,channel,time]
-        table.add_row(row)
+        if staff_search == 1
+          if staff_pick == "Yes"
+            row=[info,channel,time,staff_pick]
+            table.add_row(row)
+          end
+        else
+          row=[info,channel,time,staff_pick]
+          table.add_row(row)
+        end
       end
     end
   else
-    row=[info,channel,time]
-    table.add_row(row)
+    if staff_search == 1
+      if staff_pick == "Yes"
+        row=[info,channel,time,staff_pick]
+        table.add_row(row)
+      end
+    else
+      row=[info,channel,time,staff_pick]
+      table.add_row(row)
+    end
   end
   return(table)
 end
 
-def search_tv_page(channel_search,time_search,content_search,location)
+def search_tv_page(channel_search,time_search,content_search,location,staff_search)
   rows=[]
   base_url="http://www.yourtv.com.au/guide/"
   full_url=base_url+location+"/"
@@ -118,11 +133,16 @@ def search_tv_page(channel_search,time_search,content_search,location)
   # Hand over to Nokogiri for processing
   doc=Nokogiri::HTML(page)
   table=Terminal::Table.new
-  row=['Program','Channel','Time']
+  row=['Program','Channel','Time','Staff Pick']
   table.add_row(row)
   table.add_separator
-  doc.css('div.pname a').each do |node|
-    prog_info=node[:title]
+  doc.css('div.pname').each do |node|
+    if node.to_s.match(/Staff Pick/)
+      staff_pick="Yes"
+    else
+      staff_pick=""
+    end
+    prog_info=node.css('a')[0]["title"]
     (info,time)=prog_info.split(/ at /)
     (info,channel)=info.split(/ on /)
     # Handle Five in the time string for Seven and Nine 5pm news
@@ -138,30 +158,30 @@ def search_tv_page(channel_search,time_search,content_search,location)
           if time_search.match(/[0-9]/) 
             if meridian.match(/am|pm/)
               if prog_info.match(time_search) and prog_info.match(meridian)
-                table=process_entry(table,prog_info,info,channel,time,content_search)
+                table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             else
               if prog_info.match(time_search)
-                table=process_entry(table,prog_info,info,channel,time,content_search)
+                table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             end
           else 
-            table=process_entry(table,prog_info,info,channel,time,content_search)
+            table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
           end 
         end
       else
         if time_search.match(/[0-9]/) 
           if meridian.match(/am|pm/)
             if prog_info.match(time_search) and prog_info.match(meridian)
-              table=process_entry(table,prog_info,info,channel,time,content_search)
+              table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           else
             if prog_info.match(time_search)
-              table=process_entry(table,prog_info,info,channel,time,content_search)
+              table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           end
         else
-          table=process_entry(table,prog_info,info,channel,time,content_search)
+          table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
         end
       end
     end
@@ -211,7 +231,7 @@ end
 # Print help if given none
 
 begin
-  opt = Getopt::Std.getopts("c:a:l:s:hnCLNV")
+  opt = Getopt::Std.getopts("c:a:l:s:hnrCLNV")
 rescue 
   print_usage()
 end
@@ -278,14 +298,22 @@ if opt["a"]
   time_search="at "+time_search
 end
 
+# Staff picks only
+
+if opt["r"]
+  staff_search=1
+else
+  staff_search=0
+end
+
 # Handle content
 
 if opt["s"]
   content_search=opt["s"]
 end
 
-if opt["a"] or opt["c"] or opt["s"]
-  search_tv_page(channel_search,time_search,content_search,location)
+if opt["a"] or opt["c"] or opt["s"] or opt["r"]
+  search_tv_page(channel_search,time_search,content_search,location,staff_search)
 end
 
 if opt["h"]
