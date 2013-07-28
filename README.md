@@ -8,13 +8,18 @@ Ruby script to process TV guide
 Usage
 =====
 
-	$ wot.rb -[h|C] -c Channel -a Time -l Location -s Content
+	wot.rb -[h|C|L|n|N|r] -c Channel -a Time -l Location -s Search
+
 	-h: Display usage
 	-c: Channel [TEN,ABC1,..]
 	-a: Time [8,8.00,8:30,..]
 	-l: Location
 	-C: List channels
 	-L: List locations
+	-n: What's on TV now (to the current hour)
+	-N: What's on TV next (to the next hour
+	-s: Search on subject (eg News)
+	-r: Show only staff picksV
 
 Examples
 ========

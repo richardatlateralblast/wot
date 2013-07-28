@@ -30,7 +30,8 @@ channel_search=""
 
 def print_usage
   puts ""
-  puts "Usage: "+$script+" -[h|C] -c Channel -a Time -l Location"
+  puts "Usage: "+$script+" -[h|C|L|n|N|r] -c Channel -a Time -l Location -s Search"
+  puts ""
   puts "-h: Display usage"
   puts "-c: Channel [TEN,ABC1,..]"
   puts "-a: Time [8,8.00,8:30,..]" 
