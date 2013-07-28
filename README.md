@@ -19,7 +19,7 @@ Usage
 	-n: What's on TV now (to the current hour)
 	-N: What's on TV next (to the next hour
 	-s: Search on subject (eg News)
-	-r: Show only staff picksV
+	-r: Show only staff picks
 
 Examples
 ========
