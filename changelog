@@ -10,3 +10,5 @@
 #           Used Mechanize to fetch rest of day's programming
 #           0.0.6: Sat 27 Jul 2013 10:47:14 EST
 #           Search based on programming content
+#           0.0.7: Sun 28 Jul 2013 21:17:53 EST
+#           Added handling for empty program information

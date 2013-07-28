@@ -8,7 +8,7 @@ Ruby script to process TV guide
 Usage
 =====
 
-	$ wot.rb -[h|C] -c Channel -a Time -l Location
+	$ wot.rb -[h|C] -c Channel -a Time -l Location -s Content
 	-h: Display usage
 	-c: Channel [TEN,ABC1,..]
 	-a: Time [8,8.00,8:30,..]

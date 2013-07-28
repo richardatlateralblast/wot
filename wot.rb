@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.6
+# Version:      0.0.7
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -56,6 +56,7 @@ def list_channels(location)
   base_url="http://www.yourtv.com.au/guide/"
   full_url=base_url+location+"/"
   puts "Channels:"
+  puts "--------"
   doc = Nokogiri::HTML(open(base_url))
   doc.css('div.venue-name img').each do |node|
     channel_name=node[:title]
@@ -69,6 +70,7 @@ def list_locations(location)
   base_url="http://www.yourtv.com.au/guide/"
   full_url=base_url+location+"/"
   puts "Locations:"
+  puts "---------"
   doc = Nokogiri::HTML(open(base_url))
   doc.css('li a').each do |node|
     if node.to_s.match(/ TV Guide/)
@@ -129,9 +131,25 @@ def search_tv_page(channel_search,time_search,content_search,location)
       (time,channel)=time.split(/ on /)
       time="5pm"
     end
-    channel=channel.gsub(/\s+/,'')
-    if channel_search.match(/[A-z]/) 
-      if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
+    if channel
+      channel=channel.gsub(/\s+/,'')
+      if channel_search.match(/[A-z]/) 
+        if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
+          if time_search.match(/[0-9]/) 
+            if meridian.match(/am|pm/)
+              if prog_info.match(time_search) and prog_info.match(meridian)
+                table=process_entry(table,prog_info,info,channel,time,content_search)
+              end
+            else
+              if prog_info.match(time_search)
+                table=process_entry(table,prog_info,info,channel,time,content_search)
+              end
+            end
+          else 
+            table=process_entry(table,prog_info,info,channel,time,content_search)
+          end 
+        end
+      else
         if time_search.match(/[0-9]/) 
           if meridian.match(/am|pm/)
             if prog_info.match(time_search) and prog_info.match(meridian)
@@ -142,23 +160,9 @@ def search_tv_page(channel_search,time_search,content_search,location)
               table=process_entry(table,prog_info,info,channel,time,content_search)
             end
           end
-        else 
-          table=process_entry(table,prog_info,info,channel,time,content_search)
-        end 
-      end
-    else
-      if time_search.match(/[0-9]/) 
-        if meridian.match(/am|pm/)
-          if prog_info.match(time_search) and prog_info.match(meridian)
-            table=process_entry(table,prog_info,info,channel,time,content_search)
-          end
         else
-          if prog_info.match(time_search)
-            table=process_entry(table,prog_info,info,channel,time,content_search)
-          end
+          table=process_entry(table,prog_info,info,channel,time,content_search)
         end
-      else
-        table=process_entry(table,prog_info,info,channel,time,content_search)
       end
     end
   end
@@ -178,7 +182,7 @@ def handle_channel(channel_search)
   when /^1$/ 
     channel_search="ABC1"
   when /SBS1|SBS 1/ 
-    channel_search="SBS1"
+    channel_search="SBSONE"
   when /SBS2|SBS 2/ 
     channel_search="SBS2"
   when /^4$/ 
