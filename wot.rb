@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.8
+# Version:      0.0.9
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -204,10 +204,14 @@ def handle_channel(channel_search)
     channel_search="ABC1"
   when /SBS1|SBS 1/ 
     channel_search="SBSONE"
+  when /^0$/ 
+    channel_search="SBSONE"
   when /SBS2|SBS 2/ 
     channel_search="SBS2"
   when /^4$/ 
     channel_search="ABC4"
+  when /10$/ 
+    channel_search="TEN"
   when /11$/ 
     channel_search="ELEVEN"
   when /24$/ 
