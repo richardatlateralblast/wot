@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.0.9
+# Version:      0.1.0
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -27,10 +27,11 @@ $script=$0
 location="melbourne"
 time_search=""
 channel_search=""
+$options="c:a:l:s:hnrCLNV"
 
 def print_usage
   puts ""
-  puts "Usage: "+$script+" -[h|C|L|n|N|r] -c Channel -a Time -l Location -s Search"
+  puts "Usage: "+$script+" -["+$options+"]"
   puts ""
   puts "-h: Display usage"
   puts "-c: Channel [TEN,ABC1,..]"
@@ -236,7 +237,7 @@ end
 # Print help if given none
 
 begin
-  opt = Getopt::Std.getopts("c:a:l:s:hnrCLNV")
+  opt = Getopt::Std.getopts($options)
 rescue 
   print_usage()
 end

@@ -1,18 +1,21 @@
-# Changes:  0.01:
-#           Initial version
-#           0.0.2: Fri 26 Jul 2013 22:25:41 EST
-#           Updates and initial commit to github
-#           0.0.3: Fri 26 Jul 2013 22:52:59 EST
-#           Added version information
-#           0.0.4: Sat 27 Jul 2013 00:29:03 EST
-#           Added terminal tables
-#           0.0.5: Sat 27 Jul 2013 08:39:16 EST
-#           Used Mechanize to fetch rest of day's programming
-#           0.0.6: Sat 27 Jul 2013 10:47:14 EST
-#           Search based on programming content
-#           0.0.7: Sun 28 Jul 2013 21:17:53 EST
-#           Added handling for empty program information
-#           0.0.8: Mon 29 Jul 2013 06:10:10 EST
-#           Added capability to show staff picks
-#           0.0.9: Tue 30 Jul 2013 09:22:21 EST
-#           Minor updates
+# Changes:  
+# 0.01:
+# Initial version
+# 0.0.2: Fri 26 Jul 2013 22:25:41 EST
+# Updates and initial commit to github
+# 0.0.3: Fri 26 Jul 2013 22:52:59 EST
+# Added version information
+# 0.0.4: Sat 27 Jul 2013 00:29:03 EST
+# Added terminal tables
+# 0.0.5: Sat 27 Jul 2013 08:39:16 EST
+# Used Mechanize to fetch rest of day's programming
+# 0.0.6: Sat 27 Jul 2013 10:47:14 EST
+# Search based on programming content
+# 0.0.7: Sun 28 Jul 2013 21:17:53 EST
+# Added handling for empty program information
+# 0.0.8: Mon 29 Jul 2013 06:10:10 EST
+# Added capability to show staff picks
+# 0.0.9: Tue 30 Jul 2013 09:22:21 EST
+# Minor updates
+# 0.1.0 Sun 13 Oct 2013 19:57:13 EST 
+# Minor updates

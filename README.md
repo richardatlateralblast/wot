@@ -13,7 +13,7 @@ Usage
 	-h: Display usage
 	-c: Channel [TEN,ABC1,..]
 	-a: Time [8,8.00,8:30,..]
-	-l: Location
+	-l: Location (Default Melbourne)
 	-C: List channels
 	-L: List locations
 	-n: What's on TV now (to the current hour)
