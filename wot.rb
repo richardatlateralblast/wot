@@ -113,7 +113,7 @@ def process_entry(table,prog_info,info,channel,time,content_search,staff_pick,st
   return(table)
 end
 
-def search_tv_page(channel_search,time_search,content_search,location,staff_search)
+def search_tv_page(channel_search,time_search,content_search,location,staff_search,date)
   rows=[]
   base_url="http://www.yourtv.com.au/guide/"
   full_url=base_url+location+"/"
@@ -135,7 +135,7 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
   # Hand over to Nokogiri for processing
   doc=Nokogiri::HTML(page)
   uc_location=location.capitalize
-  search_info="#{channel_search} #{uc_location} #{time_search} #{meridian} #{content_search}"
+  search_info="#{channel_search} #{uc_location} #{time_search} #{meridian} #{content_search} (#{date})"
   search_info=search_info.gsub(/\s+/,' ')
   table=Terminal::Table.new :title => "TV Programme: #{search_info}", :headings => ['Program','Channel','Time','Staff Pick']
   doc.css('div.pname').each do |node|
@@ -320,7 +320,9 @@ if opt["s"]
 end
 
 if opt["a"] or opt["c"] or opt["s"] or opt["r"]
-  search_tv_page(channel_search,time_search,content_search,location,staff_search)
+  time=Time.new
+  date=time.strftime("%A %d %B %Y")
+  search_tv_page(channel_search,time_search,content_search,location,staff_search,date)
 end
 
 if opt["h"]
