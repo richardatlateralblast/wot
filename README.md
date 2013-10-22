@@ -24,56 +24,66 @@ Usage
 Examples
 ========
 
-Display Channel TEN's programming for the evening:
+Display Channel TEN's programming for the rest of the day:
 
 	$ wot.rb -c TEN
-	+--------------------------------+---------+---------+
-	| Program                        | Channel | Time    |
-	+--------------------------------+---------+---------+
-	| Late Show with David Letterman | TEN     | 12am    |
-	| Home Shopping                  | TEN     | 1am     |
-	| Home Shopping                  | TEN     | 1.30am  |
-	| Home Shopping                  | TEN     | 2am     |
-	| Home Shopping                  | TEN     | 2.30am  |
-	| Home Shopping                  | TEN     | 3am     |
-	| Home Shopping                  | TEN     | 3.30am  |
-	| Home Shopping                  | TEN     | 4am     |
-	| Home Shopping                  | TEN     | 4.30am  |
-	| Home Shopping                  | TEN     | 5am     |
-	| Home Shopping                  | TEN     | 5.30am  |
-	+--------------------------------+---------+---------+
+	+----------------------------+-------------+-------------+-------------+
+	|        TV Programme: TEN Melbourne (Tuesday 22 October 2013)         |
+	+----------------------------+-------------+-------------+-------------+
+	| Program                    | Channel     | Time        | Staff Pick  |
+	+----------------------------+-------------+-------------+-------------+
+	| Dr. Phil                   | TEN         | 12pm        |             |
+	| The Doctors                | TEN         | 1pm         |             |
+	| Ready Steady Cook          | TEN         | 2pm         |             |
+	| Judge Judy                 | TEN         | 3pm         |             |
+	| Huey's Kitchen             | TEN         | 3.30pm      |             |
+	| Totally Wild               | TEN         | 4pm         |             |
+	| The Bold and the Beautiful | TEN         | 4.30pm      |             |
+	| TEN Eyewitness News        | TEN         | 5pm         |             |
+	| The Simpsons               | TEN         | 6pm         |             |
+	| The Project                | TEN         | 6.30pm      |             |
+	| Recipe to Riches           | TEN         | 7.30pm      |             |
+	| NCIS                       | TEN         | 8.30pm      | Yes         |
+	| NCIS: Los Angeles          | TEN         | 9.30pm      |             |
+	| TEN Eyewitness News Late   | TEN         | 10.30pm     |             |
+	| The Project                | TEN         | 11.15pm     |             |
+	+----------------------------+-------------+-------------+-------------+
 
 Display what is on TV at 6:30pm:
 
 	$ wot.rb -a 6:30pm
-	+------------------------------------------+---------+---------+
-	| Program                                  | Channel | Time    |
-	+------------------------------------------+---------+---------+
-	| Gardening Australia                      | ABC1    | 6.30pm  |
-	| World News Australia                     | SBS ONE | 6.30pm  |
-	| World News Australia                     | SBS HD  | 6.30pm  |
-	| Bridge to Terabithia                     | Seven   | 6.30pm  |
-	| Heartbeat                                | 7TWO    | 6.30pm  |
-	| Happy 75th Bert! Celebrating a TV Legend | Nine    | 6.30pm  |
-	| Secret Dealers                           | GEM     | 6.30pm  |
-	| Batman & Robin                           | GO!     | 6.30pm  |
-	| M*A*S*H                                  | ONE     | 6.30pm  |
-	| David Attenborough's The Life of Mammals | TEN     | 6.30pm  |
-	| Reef Doctors                             | ELEVEN  | 6.30pm  |
-	| New Brother 4234D Sewing Machine         | TVSN    | 6.30pm  |
-	| Grainger's World                         | TVS     | 6.30pm  |
-	| Retail Therapy                           | 4ME     | 6.30pm  |
-	+------------------------------------------+---------+---------+
+	+------------------------------+---------------+---------------+---------------+
+	|        TV Programme:  Melbourne at 6.30 pm (Tuesday 22 October 2013)         |
+	+------------------------------+---------------+---------------+---------------+
+	| Program                      | Channel       | Time          | Staff Pick    |
+	+------------------------------+---------------+---------------+---------------+
+	| World News Australia         | SBSONE        | 6.30pm        |               |
+	| World News Australia         | SBSHD         | 6.30pm        |               |
+	| Desperate Measures           | NITV          | 6.30pm        |               |
+	| Today Tonight                | Seven         | 6.30pm        |               |
+	| How I Met Your Mother        | 7mate         | 6.30pm        |               |
+	| A Current Affair             | Nine          | 6.30pm        |               |
+	| Friends                      | GEM           | 6.30pm        |               |
+	| The Middle                   | GO!           | 6.30pm        |               |
+	| Get Smart                    | ONE           | 6.30pm        |               |
+	| The Project                  | TEN           | 6.30pm        |               |
+	| Neighbours                   | ELEVEN        | 6.30pm        |               |
+	| Total Gym XLS                | SpreeTV       | 6.30pm        |               |
+	| PURMinerals Makeup GOES WILD | TVSN          | 6.30pm        |               |
+	| euromaxx                     | TVS           | 6.30pm        |               |
+	| No More Practice             | 4ME           | 6.30pm        |               |
+	+------------------------------+---------------+---------------+---------------+
 
 Search for type of programming:
 
 	$ wot.rb -s "Movie"
-	+------------------------------+-----------+----------+
-	| Program                      | Channel   | Time     |
-	+------------------------------+-----------+----------+
-	| At the Movies                | ABC1      | 1.30pm   |
-	| Mama Mirabelle's Home Movies | ABC2/ABC4 | 11.45am  |
-	+------------------------------+-----------+----------+
+	+---------------+--------------+--------------+--------------+
+	|  TV Programme:  Melbourne Movie (Tuesday 22 October 2013)  |
+	+---------------+--------------+--------------+--------------+
+	| Program       | Channel      | Time         | Staff Pick   |
+	+---------------+--------------+--------------+--------------+
+	| At the Movies | ABC1         | 9.31pm       |              |
+	+---------------+--------------+--------------+--------------+
 
 List channels:
 
@@ -104,12 +114,14 @@ List locations:
 Show staff picks:
 
 	$ wot.rb -r
-	+------------------------------------------+-----------+----------+------------+
-	| Program                                  | Channel   | Time     | Staff Pick |
-	+------------------------------------------+-----------+----------+------------+
-	| Junior Doctors: Your Life in Their Hands | ABC2/ABC4 | 8.30pm   | Yes        |
-	| Pain, Pus and Poison                     | SBSONE    | 8.30pm   | Yes        |
-	| Please Marry My Boy                      | Seven     | 9pm      | Yes        |
-	| Big Brother                              | Nine      | 7pm      | Yes        |
-	| The Gates                                | ELEVEN    | 10.30pm  | Yes        |
-	+------------------------------------------+-----------+----------+------------+
+	+------------------------+-------------+-------------+-------------+
+	|        TV Programme:  Melbourne (Tuesday 22 October 2013)        |
+	+------------------------+-------------+-------------+-------------+
+	| Program                | Channel     | Time        | Staff Pick  |
+	+------------------------+-------------+-------------+-------------+
+	| The Art of Australia   | ABC1        | 8.32pm      | Yes         |
+	| Lost Girl              | SBS2        | 8.40pm      | Yes         |
+	| Dancing with the Stars | Seven       | 7.30pm      | Yes         |
+	| Super Fun Night        | Nine        | 8pm         | Yes         |
+	| NCIS                   | TEN         | 8.30pm      | Yes         |
+	+------------------------+-------------+-------------+-------------+
