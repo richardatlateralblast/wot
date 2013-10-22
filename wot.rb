@@ -134,10 +134,10 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
   page=page.content
   # Hand over to Nokogiri for processing
   doc=Nokogiri::HTML(page)
-  table=Terminal::Table.new
-  row=['Program','Channel','Time','Staff Pick']
-  table.add_row(row)
-  table.add_separator
+  uc_location=location.capitalize
+  search_info="#{channel_search} #{uc_location} #{time_search} #{meridian} #{content_search}"
+  search_info=search_info.gsub(/\s+/,' ')
+  table=Terminal::Table.new :title => "TV Programme: #{search_info}", :headings => ['Program','Channel','Time','Staff Pick']
   doc.css('div.pname').each do |node|
     if node.to_s.match(/Staff Pick/)
       staff_pick="Yes"
@@ -263,6 +263,7 @@ if opt["n"] or opt["N"]
     suffix="am"
     if opt["N"]
       hour=1
+      suffix="pm"
     end
   else
     if opt ["N"]
