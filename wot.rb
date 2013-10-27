@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.0
+# Version:      0.1.3
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -236,9 +236,13 @@ end
 # Get command line arguments
 # Print help if given none
 
+if !ARGV[0]
+  print_usage()
+end
+
 begin
-  opt = Getopt::Std.getopts($options)
-rescue 
+  opt=Getopt::Std.getopts($options)
+rescue
   print_usage()
 end
 

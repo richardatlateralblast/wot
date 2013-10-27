@@ -1,5 +1,5 @@
 # Changes:  
-# 0.01:
+# 0.0.1:
 # Initial version
 # 0.0.2: Fri 26 Jul 2013 22:25:41 EST
 # Updates and initial commit to github
@@ -21,3 +21,7 @@
 # Minor updates
 # 0.1.1 Tue 22 Oct 2013 12:11:07 EST
 # Improved table title and fixed midday time error
+# 0.1.2 Tue 22 Oct 2013 12:47:43 EST
+# Added date to programme information
+# 0.1.3 Sun 27 Oct 2013 21:21:58 EST
+# Fixed option handling to print help when no options given
