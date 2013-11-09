@@ -25,3 +25,5 @@
 # Added date to programme information
 # 0.1.3 Sun 27 Oct 2013 21:21:58 EST
 # Fixed option handling to print help when no options given
+# 0.1.4 Sat  9 Nov 2013 20:27:30 EST
+# Added support for NITV having channel name in programme title

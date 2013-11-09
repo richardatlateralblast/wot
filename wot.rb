@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.3
+# Version:      0.1.4
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -35,14 +35,14 @@ def print_usage
   puts ""
   puts "-h: Display usage"
   puts "-c: Channel [TEN,ABC1,..]"
-  puts "-a: Time [8,8.00,8:30,..]" 
+  puts "-a: Time [8,8.00,8:30,..]"
   puts "-l: Location"
   puts "-C: List channels"
   puts "-L: List locations"
   puts "-n: What's on TV now (to the current hour)"
   puts "-N: What's on TV next (to the next hour"
-  puts "-s: Search on subject (eg News)" 
-  puts "-r: Show only staff picks" 
+  puts "-s: Search on subject (eg News)"
+  puts "-r: Show only staff picks"
   puts ""
   exit
 end
@@ -146,7 +146,12 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
     end
     prog_info=node.css('a')[0]["title"]
     (info,time)=prog_info.split(/ at /)
-    (info,channel)=info.split(/ on /)
+    if info.match(/NITV on/)
+      (prefix,info,channel)=info.split(/ on /)
+      info=prefix+" on "+info
+    else
+      (info,channel)=info.split(/ on /)
+    end
     # Handle Five in the time string for Seven and Nine 5pm news
     # in case you watch this commercial garbage which has half the news in twice the time
     if time.match(/Five/)
@@ -155,9 +160,9 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
     end
     if channel
       channel=channel.gsub(/\s+/,'')
-      if channel_search.match(/[A-z]/) 
+      if channel_search.match(/[A-z]/)
         if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
-          if time_search.match(/[0-9]/) 
+          if time_search.match(/[0-9]/)
             if meridian.match(/am|pm/)
               if prog_info.match(time_search) and prog_info.match(meridian)
                 table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
@@ -167,12 +172,12 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
                 table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             end
-          else 
+          else
             table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
-          end 
+          end
         end
       else
-        if time_search.match(/[0-9]/) 
+        if time_search.match(/[0-9]/)
           if meridian.match(/am|pm/)
             if prog_info.match(time_search) and prog_info.match(meridian)
               table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
@@ -195,29 +200,29 @@ end
 def handle_channel(channel_search)
   channel_search=channel_search.gsub(/\s+/,'')
   case channel_search
-  when /^7$/ 
+  when /^7$/
     channel_search="Seven"
-  when /^9$/ 
+  when /^9$/
     channel_search="Nine"
-  when /^2$/ 
+  when /^2$/
     channel_search="ABC2"
-  when /^1$/ 
+  when /^1$/
     channel_search="ABC1"
-  when /SBS1|SBS 1/ 
+  when /SBS1|SBS 1/
     channel_search="SBSONE"
-  when /^0$/ 
+  when /^0$/
     channel_search="SBSONE"
-  when /SBS2|SBS 2/ 
+  when /SBS2|SBS 2/
     channel_search="SBS2"
-  when /^4$/ 
+  when /^4$/
     channel_search="ABC4"
-  when /10$/ 
+  when /10$/
     channel_search="TEN"
-  when /11$/ 
+  when /11$/
     channel_search="ELEVEN"
-  when /24$/ 
+  when /24$/
     channel_search="ABCNews24"
-  end  
+  end
   if !channel_search.downcase.match(/news/)
     channel_search=channel_search.downcase
     if !channel_search.match(/mate/)
