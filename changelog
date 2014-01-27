@@ -29,3 +29,5 @@
 # Added support for NITV having channel name in programme title
 # 0.1.5: Mon 27 Jan 2014 17:58:11 EST
 # Fixed bug with am/pm detection
+# 0.1.6: Mon 27 Jan 2014 20:00:27 EST
+# Improved time handling

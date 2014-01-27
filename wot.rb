@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.5
+# Version:      0.1.6
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -177,12 +177,12 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
       if channel_search.match(/[A-z]/)
         if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
           if time_search.match(/[0-9]/)
-            if meridian.match(/am|pm/)
-              if prog_info.match(time_search) and prog_info.match(meridian)
+            if time_search.match(/\./)
+              if prog_info.match(/#{time_search}#{meridian}/)
                 table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             else
-              if prog_info.match(time_search)
+              if prog_info.match(/#{time_search}\.[0-9][0-9]#{meridian}/) or prog_info.match(/#{time_search}#{meridian}/)
                 table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             end
@@ -192,12 +192,12 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
         end
       else
         if time_search.match(/[0-9]/)
-          if meridian.match(/am|pm/)
-            if prog_info.match(time_search) and prog_info.match(meridian)
+          if time_search.match(/\./)
+            if prog_info.match(/#{time_search}#{meridian}/)
               table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           else
-            if prog_info.match(time_search)
+            if prog_info.match(/#{time_search}\.[0-9][0-9]#{meridian}/) or prog_info.match(/#{time_search}#{meridian}/)
               table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           end
@@ -321,16 +321,44 @@ if opt["c"]
   channel_search = handle_channel(channel_search)
 end
 
-# Handle time
-
-if opt["a"]
-  time_search = opt["a"].sub(":",".")
+def handle_time_search(time_search)
+  time_search = time_search.sub(":",".")
   if !time_search.downcase.match(/am|pm/)
-    meridian    = Time.now
-    meridian    = meridian.strftime('%p').downcase
+    if time_search.match(/\./)
+      hour = time_search.split(/\./)[0]
+      mins = time_search.split(/\./)[1]
+    else
+      hour = time_search
+      mins = "00"
+    end
+    if hour.to_i > 12
+      hour = hour.to_i - 12
+      hour = hour.to_s
+      meridian = "pm"
+    else
+      if hour.to_i == 0
+        hour = "12"
+        meridian = "am"
+      else
+        meridian = Time.now.strftime('%p').downcase
+      end
+    end
+    if !mins.match(/00/)
+      time_search = hour+"."+mins
+    else
+      time_search = hour
+    end
     time_search = time_search+meridian
   end
   time_search = "at "+time_search
+  return time_search
+end
+
+# Handle time
+
+if opt["a"]
+  time_search = opt["a"]
+  time_search = handle_time_search(time_search)
 end
 
 # Staff picks only
