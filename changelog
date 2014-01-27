@@ -17,13 +17,15 @@
 # Added capability to show staff picks
 # 0.0.9: Tue 30 Jul 2013 09:22:21 EST
 # Minor updates
-# 0.1.0 Sun 13 Oct 2013 19:57:13 EST 
+# 0.1.0: Sun 13 Oct 2013 19:57:13 EST 
 # Minor updates
-# 0.1.1 Tue 22 Oct 2013 12:11:07 EST
+# 0.1.1: Tue 22 Oct 2013 12:11:07 EST
 # Improved table title and fixed midday time error
-# 0.1.2 Tue 22 Oct 2013 12:47:43 EST
+# 0.1.2: Tue 22 Oct 2013 12:47:43 EST
 # Added date to programme information
-# 0.1.3 Sun 27 Oct 2013 21:21:58 EST
+# 0.1.3: Sun 27 Oct 2013 21:21:58 EST
 # Fixed option handling to print help when no options given
-# 0.1.4 Sat  9 Nov 2013 20:27:30 EST
+# 0.1.4: Sat  9 Nov 2013 20:27:30 EST
 # Added support for NITV having channel name in programme title
+# 0.1.5: Mon 27 Jan 2014 17:58:11 EST
+# Fixed bug with am/pm detection

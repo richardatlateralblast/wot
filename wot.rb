@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.4
+# Version:      0.1.5
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -23,11 +23,11 @@ require 'mechanize'
 
 # Set up some defaults
 
-$script=$0
-location="melbourne"
-time_search=""
-channel_search=""
-$options="c:a:l:s:hnrCLNV"
+$script        = $0
+location       = "melbourne"
+time_search    = ""
+channel_search = ""
+$options       = "c:a:l:s:hnrCLNV"
 
 def print_usage
   puts ""
@@ -44,40 +44,54 @@ def print_usage
   puts "-s: Search on subject (eg News)"
   puts "-r: Show only staff picks"
   puts ""
+  puts "Example:"
+  puts ""
+  puts $script+"-c SBS -a 7:30"
+  puts ""
+  puts "+----------------+----------------+----------------+----------------+"
+  puts "|  TV Programme: SBS Melbourne at 7.30 pm (Monday 27 January 2014)  |"
+  puts "+----------------+----------------+----------------+----------------+"
+  puts "| Program        | Channel        | Time           | Staff Pick     |"
+  puts "+----------------+----------------+----------------+----------------+"
+  puts "| Strip the City | SBSONE         | 7.30pm         | Yes            |"
+  puts "| Strip the City | SBSHD          | 7.30pm         | Yes            |"
+  puts "| The Feed       | SBS2           | 7.30pm         |                |"
+  puts "+----------------+----------------+----------------+----------------+"
+  puts ""
   exit
 end
 
 def print_version()
-  file_array=IO.readlines $0
-  version=file_array.grep(/^# Version/)[0].split(":")[1].gsub(/^\s+/,'').chomp
-  packager=file_array.grep(/^# Packager/)[0].split(":")[1].gsub(/^\s+/,'').chomp
-  name=file_array.grep(/^# Name/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  file_array = IO.readlines $0
+  version    = file_array.grep(/^# Version/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  packager   = file_array.grep(/^# Packager/)[0].split(":")[1].gsub(/^\s+/,'').chomp
+  name       = file_array.grep(/^# Name/)[0].split(":")[1].gsub(/^\s+/,'').chomp
   puts name+" v. "+version+" "+packager
 end
 
 def list_channels(location)
-  base_url="http://www.yourtv.com.au/guide/"
-  full_url=base_url+location+"/"
+  base_url = "http://www.yourtv.com.au/guide/"
+  full_url = base_url+location+"/"
   puts "Channels:"
   puts "--------"
   doc = Nokogiri::HTML(open(base_url))
   doc.css('div.venue-name img').each do |node|
-    channel_name=node[:title]
-    channel_name=channel_name.gsub(/\s+/,'')
+    channel_name = node[:title]
+    channel_name = channel_name.gsub(/\s+/,'')
     puts channel_name
   end
   return
 end
 
 def list_locations(location)
-  base_url="http://www.yourtv.com.au/guide/"
-  full_url=base_url+location+"/"
+  base_url = "http://www.yourtv.com.au/guide/"
+  full_url = base_url+location+"/"
   puts "Locations:"
   puts "---------"
   doc = Nokogiri::HTML(open(base_url))
   doc.css('li a').each do |node|
     if node.to_s.match(/ TV Guide/)
-      location_name=node.text.split(/ /)[0]
+      location_name = node.text.split(/ /)[0]
       puts location_name
     end
   end
@@ -90,11 +104,11 @@ def process_entry(table,prog_info,info,channel,time,content_search,staff_pick,st
       if prog_info.match(/#{content_search}/)
         if staff_search == 1
           if staff_pick == "Yes"
-            row=[info,channel,time,staff_pick]
+            row = [info,channel,time,staff_pick]
             table.add_row(row)
           end
         else
-          row=[info,channel,time,staff_pick]
+          row = [info,channel,time,staff_pick]
           table.add_row(row)
         end
       end
@@ -102,11 +116,11 @@ def process_entry(table,prog_info,info,channel,time,content_search,staff_pick,st
   else
     if staff_search == 1
       if staff_pick == "Yes"
-        row=[info,channel,time,staff_pick]
+        row = [info,channel,time,staff_pick]
         table.add_row(row)
       end
     else
-      row=[info,channel,time,staff_pick]
+      row = [info,channel,time,staff_pick]
       table.add_row(row)
     end
   end
@@ -114,81 +128,81 @@ def process_entry(table,prog_info,info,channel,time,content_search,staff_pick,st
 end
 
 def search_tv_page(channel_search,time_search,content_search,location,staff_search,date)
-  rows=[]
-  base_url="http://www.yourtv.com.au/guide/"
-  full_url=base_url+location+"/"
+  rows     = []
+  base_url = "http://www.yourtv.com.au/guide/"
+  full_url = base_url+location+"/"
   # Split out am/pm from search string so we can cover for 6pm and 6:30pm
   if time_search.match(/[0-9]/) and time_search.match(/am|pm/)
     if time_search.match(/am/)
-      meridian="am"
-      time_search=time_search.gsub(/am/,'')
+      meridian = "am"
+      time_search = time_search.gsub(/am/,'')
     else
-      meridian="pm"
-      time_search=time_search.gsub(/pm/,'')
+      meridian = "pm"
+      time_search = time_search.gsub(/pm/,'')
     end
   end
   # Start with Mechanize so we can follow links and don't need to set cookies
-  agent=Mechanize.new
-  page=agent.get(base_url)
-  page=agent.page.link_with(:text => 'Rest of today').click
-  page=page.content
+  agent = Mechanize.new
+  page  = agent.get(base_url)
+  page  = agent.page.link_with(:text => 'Rest of today').click
+  page  = page.content
   # Hand over to Nokogiri for processing
-  doc=Nokogiri::HTML(page)
-  uc_location=location.capitalize
-  search_info="#{channel_search} #{uc_location} #{time_search} #{meridian} #{content_search} (#{date})"
-  search_info=search_info.gsub(/\s+/,' ')
-  table=Terminal::Table.new :title => "TV Programme: #{search_info}", :headings => ['Program','Channel','Time','Staff Pick']
+  doc = Nokogiri::HTML(page)
+  uc_location = location.capitalize
+  search_info = "#{channel_search} #{uc_location} #{time_search} #{meridian} #{content_search} (#{date})"
+  search_info = search_info.gsub(/\s+/,' ')
+  table = Terminal::Table.new :title => "TV Programme: #{search_info}", :headings => ['Program','Channel','Time','Staff Pick']
   doc.css('div.pname').each do |node|
     if node.to_s.match(/Staff Pick/)
-      staff_pick="Yes"
+      staff_pick = "Yes"
     else
-      staff_pick=""
+      staff_pick = ""
     end
-    prog_info=node.css('a')[0]["title"]
-    (info,time)=prog_info.split(/ at /)
+    prog_info = node.css('a')[0]["title"]
+    (info,time) = prog_info.split(/ at /)
     if info.match(/NITV on/)
-      (prefix,info,channel)=info.split(/ on /)
-      info=prefix+" on "+info
+      (prefix,info,channel) = info.split(/ on /)
+      info = prefix+" on "+info
     else
-      (info,channel)=info.split(/ on /)
+      (info,channel) = info.split(/ on /)
     end
     # Handle Five in the time string for Seven and Nine 5pm news
     # in case you watch this commercial garbage which has half the news in twice the time
     if time.match(/Five/)
-      (time,channel)=time.split(/ on /)
-      time="5pm"
+      (time,channel) = time.split(/ on /)
+      time = "5pm"
     end
     if channel
-      channel=channel.gsub(/\s+/,'')
+      channel = channel.gsub(/\s+/,'')
       if channel_search.match(/[A-z]/)
         if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
           if time_search.match(/[0-9]/)
             if meridian.match(/am|pm/)
               if prog_info.match(time_search) and prog_info.match(meridian)
-                table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+                table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             else
               if prog_info.match(time_search)
-                table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+                table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
               end
             end
           else
-            table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+            table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
           end
         end
       else
         if time_search.match(/[0-9]/)
           if meridian.match(/am|pm/)
             if prog_info.match(time_search) and prog_info.match(meridian)
-              table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+              table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           else
             if prog_info.match(time_search)
-              table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+              table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
             end
           end
         else
-          table=process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
+          table = process_entry(table,prog_info,info,channel,time,content_search,staff_pick,staff_search)
         end
       end
     end
@@ -198,42 +212,42 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
 end
 
 def handle_channel(channel_search)
-  channel_search=channel_search.gsub(/\s+/,'')
+  channel_search = channel_search.gsub(/\s+/,'')
   case channel_search
   when /^7$/
-    channel_search="Seven"
+    channel_search = "Seven"
   when /^9$/
-    channel_search="Nine"
+    channel_search = "Nine"
   when /^2$/
-    channel_search="ABC2"
+    channel_search = "ABC2"
   when /^1$/
-    channel_search="ABC1"
+    channel_search = "ABC1"
   when /SBS1|SBS 1/
-    channel_search="SBSONE"
+    channel_search = "SBSONE"
   when /^0$/
-    channel_search="SBSONE"
+    channel_search = "SBSONE"
   when /SBS2|SBS 2/
-    channel_search="SBS2"
+    channel_search = "SBS2"
   when /^4$/
-    channel_search="ABC4"
+    channel_search = "ABC4"
   when /10$/
-    channel_search="TEN"
+    channel_search = "TEN"
   when /11$/
-    channel_search="ELEVEN"
+    channel_search = "ELEVEN"
   when /24$/
-    channel_search="ABCNews24"
+    channel_search = "ABCNews24"
   end
   if !channel_search.downcase.match(/news/)
-    channel_search=channel_search.downcase
+    channel_search = channel_search.downcase
     if !channel_search.match(/mate/)
       if channel_search.match(/seven|nine/)
-        channel_search=channel_search.capitalize
+        channel_search = channel_search.capitalize
       else
-        channel_search=channel_search.upcase
+        channel_search = channel_search.upcase
       end
     end
   else
-    channel_search="ABCNews24"
+    channel_search = "ABCNews24"
   end
   return(channel_search)
 end
@@ -246,7 +260,7 @@ if !ARGV[0]
 end
 
 begin
-  opt=Getopt::Std.getopts($options)
+  opt = Getopt::Std.getopts($options)
 rescue
   print_usage()
 end
@@ -259,27 +273,27 @@ end
 # Handle getting what is on in the current or next hour
 
 if opt["n"] or opt["N"]
-  time=Time.new
-  hour=time.hour
+  time = Time.new
+  hour = time.hour
   if hour > 11
-    hour=hour-12
-    suffix="pm"
+    hour = hour-12
+    suffix = "pm"
   else
-    suffix="am"
+    suffix = "am"
   end
   if hour == 0
-    hour=12
-    suffix="am"
+    hour = 12
+    suffix = "am"
     if opt["N"]
-      hour=1
-      suffix="pm"
+      hour = 1
+      suffix = "pm"
     end
   else
     if opt ["N"]
-      hour=hour+1
+      hour = hour+1
     end
   end
-  opt["a"]=hour.to_s+suffix
+  opt["a"] = hour.to_s+suffix
 end
 
 # Ouput loations (cities)
@@ -297,40 +311,45 @@ if opt["C"]
 end
 
 if opt['l']
-  location=opt["l"].downcase
+  location = opt["l"].downcase
 end
 
 # Handle channel
 
 if opt["c"]
-  channel_search=opt["c"]
-  channel_search=handle_channel(channel_search)
+  channel_search = opt["c"]
+  channel_search = handle_channel(channel_search)
 end
 
 # Handle time
 
 if opt["a"]
-  time_search=opt["a"].sub(":",".")
-  time_search="at "+time_search
+  time_search = opt["a"].sub(":",".")
+  if !time_search.downcase.match(/am|pm/)
+    meridian    = Time.now
+    meridian    = meridian.strftime('%p').downcase
+    time_search = time_search+meridian
+  end
+  time_search = "at "+time_search
 end
 
 # Staff picks only
 
 if opt["r"]
-  staff_search=1
+  staff_search = 1
 else
-  staff_search=0
+  staff_search = 0
 end
 
 # Handle content
 
 if opt["s"]
-  content_search=opt["s"]
+  content_search = opt["s"]
 end
 
 if opt["a"] or opt["c"] or opt["s"] or opt["r"]
-  time=Time.new
-  date=time.strftime("%A %d %B %Y")
+  time = Time.new
+  date = time.strftime("%A %d %B %Y")
   search_tv_page(channel_search,time_search,content_search,location,staff_search,date)
 end
 
