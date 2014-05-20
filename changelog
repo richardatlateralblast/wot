@@ -1,4 +1,4 @@
-# Changes:  
+# Changes:
 # 0.0.1:
 # Initial version
 # 0.0.2: Fri 26 Jul 2013 22:25:41 EST
@@ -17,7 +17,7 @@
 # Added capability to show staff picks
 # 0.0.9: Tue 30 Jul 2013 09:22:21 EST
 # Minor updates
-# 0.1.0: Sun 13 Oct 2013 19:57:13 EST 
+# 0.1.0: Sun 13 Oct 2013 19:57:13 EST
 # Minor updates
 # 0.1.1: Tue 22 Oct 2013 12:11:07 EST
 # Improved table title and fixed midday time error
@@ -31,3 +31,5 @@
 # Fixed bug with am/pm detection
 # 0.1.6: Mon 27 Jan 2014 20:00:27 EST
 # Improved time handling
+# 0.1.7: Tue 20 May 2014 22:15:00 EST
+# Added -R switch to show what's on for the rest of the day

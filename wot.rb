@@ -1,16 +1,16 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.6
+# Version:      0.1.7
 # Release:      1
 # License:      Open Source
 # Group:        System
 # Source:       N/A
-# URL:          http://lateralblast.com.au/
+# URL:          https://github.com/richardatlateralblast/wot
 # Distribution: UNIX
 # Vendor:       Lateral Blast
 # Packager:     Richard Spindler <richard@lateralblast.com.au>
-# Description:  Ruby script to process TV guide
+# Description:  Ruby script to process Australian TV guide
 
 # Load gems
 
@@ -27,7 +27,7 @@ $script        = $0
 location       = "melbourne"
 time_search    = ""
 channel_search = ""
-$options       = "c:a:l:s:hnrCLNV"
+$options       = "c:a:l:s:hnrCLNRV"
 
 def print_usage
   puts ""
@@ -39,8 +39,9 @@ def print_usage
   puts "-l: Location"
   puts "-C: List channels"
   puts "-L: List locations"
-  puts "-n: What's on TV now (to the current hour)"
-  puts "-N: What's on TV next (to the next hour"
+  puts "-n: What's on TV now (the current hour)"
+  puts "-N: What's on TV next (the next hour)"
+  puts "-R: Want's on TV (the rest of the day)"
   puts "-s: Search on subject (eg News)"
   puts "-r: Show only staff picks"
   puts ""
@@ -310,6 +311,8 @@ if opt["C"]
   exit
 end
 
+# Handle location
+
 if opt['l']
   location = opt["l"].downcase
 end
@@ -320,6 +323,8 @@ if opt["c"]
   channel_search = opt["c"]
   channel_search = handle_channel(channel_search)
 end
+
+# Handle time search
 
 def handle_time_search(time_search)
   time_search = time_search.sub(":",".")
@@ -375,9 +380,12 @@ if opt["s"]
   content_search = opt["s"]
 end
 
-if opt["a"] or opt["c"] or opt["s"] or opt["r"]
+if opt["a"] or opt["c"] or opt["s"] or opt["r"] or opt["R"]
   time = Time.new
   date = time.strftime("%A %d %B %Y")
+  if opt["R"]
+    time = ""
+  end
   search_tv_page(channel_search,time_search,content_search,location,staff_search,date)
 end
 
