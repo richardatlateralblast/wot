@@ -33,3 +33,5 @@
 # Improved time handling
 # 0.1.7: Tue 20 May 2014 22:15:00 EST
 # Added -R switch to show what's on for the rest of the day
+# 0.1.8: Tue 17 Feb 2015 19:41:03 AEDT
+# Fixed handling of ABC, ABC1, ABC2, and ABC4

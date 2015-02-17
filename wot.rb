@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Name:         wot (What's On TV)
-# Version:      0.1.7
+# Version:      0.1.8
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -175,8 +175,15 @@ def search_tv_page(channel_search,time_search,content_search,location,staff_sear
     end
     if channel
       channel = channel.gsub(/\s+/,'')
+      if channel.match(/\//)
+        if channel_search == "ABC2"
+          channel = channel.split(/\//)[0]
+        else
+          channel = channel.split(/\//)[1]
+        end          
+      end
       if channel_search.match(/[A-z]/)
-        if channel.match(/#{channel_search}/) or channel_search.match(/ALL/)
+        if channel == channel_search or channel_search.match(/ALL/)
           if time_search.match(/[0-9]/)
             if time_search.match(/\./)
               if prog_info.match(/#{time_search}#{meridian}/)
@@ -221,8 +228,8 @@ def handle_channel(channel_search)
     channel_search = "Nine"
   when /^2$/
     channel_search = "ABC2"
-  when /^1$/
-    channel_search = "ABC1"
+  when /^1$|ABC1|ABC 1|^ABC$/
+    channel_search = "ABC"
   when /SBS1|SBS 1/
     channel_search = "SBSONE"
   when /^0$/
